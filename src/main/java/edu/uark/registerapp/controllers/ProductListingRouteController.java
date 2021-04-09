@@ -10,14 +10,19 @@ import edu.uark.registerapp.commands.products.ProductsQuery;
 import edu.uark.registerapp.controllers.enums.ViewModelNames;
 import edu.uark.registerapp.controllers.enums.ViewNames;
 import edu.uark.registerapp.models.api.Product;
+import edu.uark.registerapp.models.entities.ActiveUserEntity; // added
+import edu.uark.registerapp.models.enums.EmployeeClassification; // added
 
 @Controller
 @RequestMapping(value = "/productListing")
-public class ProductListingRouteController {
+public class ProductListingRouteController{
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView showProductListing() {
 		ModelAndView modelAndView =
 			new ModelAndView(ViewNames.PRODUCT_LISTING.getViewName());
+		
+		modelAndView.addObject(ViewModelNames.IS_ELEVATED_USER.getValue(),
+			EmployeeClassification.isElevatedUser(activeUserEntity.get().getClassification()));
 
 		try {
 			modelAndView.addObject(
